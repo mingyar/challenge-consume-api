@@ -1,9 +1,5 @@
 defmodule Apex do
-  @moduledoc """
-  Apex keeps the contexts that define your domain
-  and business logic.
+  alias Apex.Users.Get, as: UserGet
 
-  Contexts are also responsible for managing your data, regardless
-  if it comes from the database, an external API or others.
-  """
+  defdelegate get_user_repos(params), to: UserGet, as: :repos_by_name
 end

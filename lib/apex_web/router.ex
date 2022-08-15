@@ -7,6 +7,10 @@ defmodule ApexWeb.Router do
 
   scope "/api", ApexWeb do
     pipe_through :api
+
+    scope "/user" do
+      resources "/repos", UsersController, only: [:show]
+    end
   end
 
   # Enables LiveDashboard only for development

@@ -1,9 +1,12 @@
 defmodule Apex.Github.Client do
   use Tesla
 
-  @base_url "https://api.github.com/"
+  alias Tesla.Env
+
+  @base_url "https://api.github.com"
 
   plug Tesla.Middleware.JSON
+  plug Tesla.Middleware.Headers, [{"user-agent", "Tesla"}]
 
   def get_user_repos(url \\ @base_url, user_name) do
     "#{url}/users/#{user_name}/repos"
@@ -11,7 +14,7 @@ defmodule Apex.Github.Client do
     |> handle_get()
   end
 
-  defp handle_get(return) do
-    return |> IO.inspect()
+  defp handle_get({:ok, %Env{status: 200, body: body}}) do
+    {:ok, body}
   end
 end
