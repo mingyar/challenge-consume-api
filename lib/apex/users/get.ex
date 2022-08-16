@@ -1,10 +1,10 @@
 defmodule Apex.Users.Get do
-  alias Apex.Github.Client
+  alias Apex.{Error, Github.Client}
 
   def repos_by_name(name) do
     case Client.get_user_repos(name) do
       {:ok, repos} -> {:ok, format_fields(repos)}
-      {:error, _result} -> {:error}
+      {:error, %Error{} = error} -> {:error, error}
     end
   end
 

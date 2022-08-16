@@ -1,6 +1,7 @@
 defmodule Apex.Github.Client do
   use Tesla
 
+  alias Apex.Error
   alias Tesla.Env
 
   @base_url "https://api.github.com"
@@ -12,6 +13,10 @@ defmodule Apex.Github.Client do
     "#{url}/users/#{user_name}/repos"
     |> get()
     |> handle_get()
+  end
+
+  defp handle_get({:ok, %Env{status: 404}}) do
+    {:error, Error.build_user_not_found_error()}
   end
 
   defp handle_get({:ok, %Env{status: 200, body: body}}) do
