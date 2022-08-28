@@ -5,12 +5,23 @@ defmodule ApexWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :auth do
+    plug ApexWeb.Auth.Pipeline
+  end
+
+  scope "/api", ApexWeb do
+    pipe_through [:api, :auth]
+
+    scope "/users" do
+      resources "/repos", UsersController, only: [:show]
+    end
+  end
+
   scope "/api", ApexWeb do
     pipe_through :api
 
-    scope "/user" do
-      resources "/repos", UsersController, only: [:show]
-    end
+    post "/users", UsersController, :create
+    post "/users/signin", UsersController, :sign_in
   end
 
   # Enables LiveDashboard only for development

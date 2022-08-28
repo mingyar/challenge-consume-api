@@ -10,6 +10,18 @@ use Mix.Config
 config :apex,
   ecto_repos: [Apex.Repo]
 
+config :apex, Apex.Repo,
+  migration_primary_key: [type: :binary_id],
+  migration_foreign_key: [type: :binary_id]
+
+config :apex, ApexWeb.Auth.Guardian,
+  issuer: "apex",
+  secret_key: "QTQsZQjaCvEkUw9Ugzydj7JaS33z97h52DWH106QFhdaCURDWMINcGeHOwIpkgAu"
+
+config :apex, ApexWeb.Auth.Pipeline,
+  module: ApexWeb.Auth.Guardian,
+  error_handler: ApexWeb.Auth.ErrorHandler
+
 # Configures the endpoint
 config :apex, ApexWeb.Endpoint,
   url: [host: "localhost"],

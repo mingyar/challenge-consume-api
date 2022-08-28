@@ -1,5 +1,12 @@
 defmodule Apex.Users.Get do
-  alias Apex.{Error, Github.Client}
+  alias Apex.{Error, Repo, User, Github.Client}
+
+  def by_id(id) do
+    case Repo.get(User, id) do
+      nil -> {:error, Error.build_user_not_found_error()}
+      user -> {:ok, user}
+    end
+  end
 
   def repos_by_name(name) do
     case Client.get_user_repos(name) do
